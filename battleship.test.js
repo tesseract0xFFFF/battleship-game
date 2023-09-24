@@ -19,4 +19,6 @@ test('gameBoard ship placement', ()=>{
   const gameBoard1 = gameBoard();
   gameBoard1.placeShip(1, 3, 4);
   expect(gameBoard1.getShipInfo(1, 3)).toEqual({shipLength: 4, shipHits: 0, shipSunk: false,});
+  // no ship detected.
+  expect(gameBoard1.getShipInfo(4, 5)).toBe('no ship detected');
 });

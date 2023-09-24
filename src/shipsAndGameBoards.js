@@ -46,10 +46,17 @@ const gameBoard = () => {
   
   // Dumps ship info into an object.
   const getShipInfo = (x, y) => {
-    const shipLength = boardArray[x][y].getLength();
-    const shipHits = boardArray[x][y].getTimesHit();
-    const shipSunk = boardArray[x][y].getSunkenStatus();
-    return {shipLength, shipHits, shipSunk,};
+    // placeholder code for when there is no ship.
+    // not sure this function is needed at at all, it just helps me debug better.
+    if(boardArray[x][y].length === 0){
+      return 'no ship detected';
+    }
+    else{
+      const shipLength = boardArray[x][y].getLength();
+      const shipHits = boardArray[x][y].getTimesHit();
+      const shipSunk = boardArray[x][y].getSunkenStatus();
+      return {shipLength, shipHits, shipSunk,};
+    }
   };
 
   const receiveAttack = () => {
