@@ -30,31 +30,93 @@ const gameBoard = () => {
   const columns = 10;
   const boardArray = [];
 
-  for (let i = 0; i < (rows); i += 1) {
+  for (let i = 0; i < (columns); i += 1) {
     boardArray[i] = [];
-    for (let j = 0; j < (columns); j += 1) {
+    for (let j = 0; j < (rows); j += 1) {
       boardArray[i][j] = [];
     }
   }
+
+
+  const checkPlacement = (x, y, length, orientation) => {
+    // not to forget that array indexes are 0 to 9!
+    // checks if ship is contained within the board.
+    if(orientation === 'horizontal'){
+      if(x + (length -1) < 10){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    if(orientation === 'vertical'){
+      if(y + (length - 1) < 10){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+
+    else {
+      return 'one of the arguments is missing';
+    }
+      
+    
+
+  };
+
+
+
   // So far, the coordinates are numbers only. Will use letters as Y values on display.
-  const placeShip = (x, y, length) => {
+  const placeShip = (x, y, length, orientation) => {
     // Gameboards should be able to place ships at specific coordinates 
     // by calling the ship factory function.
-    const shipToBePlaced = ship(length);
-    boardArray[x][y] = shipToBePlaced;
+
+    // returns true if valid placement and false if not valid.
+    const placementCheck = checkPlacement(x, y, length, orientation);
+
+    if(placementCheck === true){
+
+      // generates a ship.
+      const shipToBePlaced = ship(length);
+        
+      if(orientation === 'horizontal'){
+        for(let i = 0; i < length; i++){
+          boardArray[y][x + i] = shipToBePlaced;
+        }
+      }
+
+      if(orientation === 'vertical'){
+        for(let i = 0; i < length; i++){
+          boardArray[y + i][x] = shipToBePlaced;
+        }
+      }
+
+    }
+    else{
+      // will use this as 
+      return 0; 
+    }
+
+  
   };
+
+  
   
   // Dumps ship info into an object.
   const getShipInfo = (x, y) => {
-    // placeholder code for when there is no ship.
+    // placeholder code for testing purposes.
     // not sure this function is needed at at all, it just helps me debug better.
-    if(boardArray[x][y].length === 0){
+    // might be deleted after developement is complete.
+    if(boardArray[y][x].length === 0){
       return 'no ship detected';
     }
     else{
-      const shipLength = boardArray[x][y].getLength();
-      const shipHits = boardArray[x][y].getTimesHit();
-      const shipSunk = boardArray[x][y].getSunkenStatus();
+      const shipLength = boardArray[y][x].getLength();
+      const shipHits = boardArray[y][x].getTimesHit();
+      const shipSunk = boardArray[y][x].getSunkenStatus();
       return {shipLength, shipHits, shipSunk,};
     }
   };
@@ -67,8 +129,9 @@ const gameBoard = () => {
   };
 
 
-  return {placeShip, receiveAttack, getShipInfo};
+  return {placeShip, receiveAttack, getShipInfo, checkPlacement, boardArray};
 };
+
 
 
 
