@@ -29,6 +29,8 @@ test('Testing the checkPlacements function', ()=>{
   const gameBoard2 = gameBoard();
   expect(gameBoard2.checkPlacement(9, 5, 2, 'horizontal')).toBe(false);
   expect(gameBoard2.checkPlacement(1, 7, 3, 'vertical')).toBe(true);
+  expect(gameBoard2.checkPlacement(7, -1, 3, 'vertical')).toBe('coordinates are not on board');
+  expect(gameBoard2.checkPlacement(-2, 5, 3, 'vertical')).toBe('coordinates are not on board');
 });
 
 test('Ship placement', ()=>{
@@ -39,4 +41,14 @@ test('Ship placement', ()=>{
   expect(gameBoard3.getShipInfo(1, 9)).toEqual({shipLength: 3, shipHits: 0, shipSunk: false,});
   // no ship detected.
   expect(gameBoard3.getShipInfo(4, 5)).toBe('no ship detected');
+});
+
+test('recieveAttack', () => {
+  const gameBoard4 = gameBoard();
+  gameBoard4.placeShip(1, 7, 3, 'vertical');
+  expect(gameBoard4.receiveAttack(1, 7)).toBe('hit');
+  expect(gameBoard4.receiveAttack(1, 8)).toBe('hit');
+  expect(gameBoard4.receiveAttack(1, 9)).toBe('hit');
+  // need to test an isSunk functionality.
+  expect(gameBoard4.getShipInfo(1, 7)).toEqual({shipLength: 3, shipHits: 3, shipSunk: false,});
 });

@@ -1,3 +1,5 @@
+import { xor } from 'lodash';
+
 const ship = (length) => {
   let shipLength = length;
   let timesHit = 0;
@@ -29,11 +31,13 @@ const gameBoard = () => {
   const rows = 10;
   const columns = 10;
   const boardArray = [];
+  // tracks coordinates that have already been shot at.
+  const hitTracker = [];
 
   for (let i = 0; i < (columns); i += 1) {
     boardArray[i] = [];
     for (let j = 0; j < (rows); j += 1) {
-      boardArray[i][j] = [];
+      boardArray[i][j] = null;
     }
   }
 
@@ -41,6 +45,11 @@ const gameBoard = () => {
   const checkPlacement = (x, y, length, orientation) => {
     // not to forget that array indexes are 0 to 9!
     // checks if ship is contained within the board.
+    // did not handle bad input.
+    if(x >= 10 || x < 0 || y >=10 || y < 0){
+      return 'coordinates are not on board';
+    }
+
     if(orientation === 'horizontal'){
       if(x + (length -1) < 10){
         return true;
@@ -61,9 +70,7 @@ const gameBoard = () => {
 
     else {
       return 'one of the arguments is missing';
-    }
-      
-    
+    }       
 
   };
 
@@ -74,6 +81,10 @@ const gameBoard = () => {
     // Gameboards should be able to place ships at specific coordinates 
     // by calling the ship factory function.
 
+    if(x >= 10 || x < 0 || y >=10 || y < 0){
+      return 'coordinates are not on board';
+    }
+  
     // returns true if valid placement and false if not valid.
     const placementCheck = checkPlacement(x, y, length, orientation);
 
@@ -107,10 +118,10 @@ const gameBoard = () => {
   
   // Dumps ship info into an object.
   const getShipInfo = (x, y) => {
-    // placeholder code for testing purposes.
+    // code for testing purposes.
     // not sure this function is needed at at all, it just helps me debug better.
     // might be deleted after developement is complete.
-    if(boardArray[y][x].length === 0){
+    if(boardArray[y][x] === null){
       return 'no ship detected';
     }
     else{
@@ -121,15 +132,68 @@ const gameBoard = () => {
     }
   };
 
-  const receiveAttack = () => {
+  const checkHitTracker = (x, y) => {
+    // checks if coordinates were already hit.
+    const stringifyInput = x.toString() + ', ' + y.toString(); 
+    for(let i = 0; i < hitTracker.length; i++){
+      if (hitTracker[i] === stringifyInput){
+        return true;
+      }
+    }
+  };
+
+  const receiveAttack = (x, y) => {
     // Gameboards should have a receiveAttack function 
     // that takes a pair of coordinates, determines whether or not the attack hit 
     // a ship and then sends the ‘hit’ function to the correct ship, 
     // or records the coordinates of the missed shot.
+
+    if(x >= 10 || x < 0 || y >=10 || y < 0){
+      return 'coordinates are not on board';
+    }
+
+    const wasHitOrNot = checkHitTracker(x, y);
+    const stringifyInput = x.toString() + ', ' + y.toString();  
+
+
+    if(wasHitOrNot === true){
+      return 'was hit already';
+    }
+    
+
+    // On miss, store the value 1 in the array.
+    if(boardArray[y][x] === null){
+      boardArray[y][x] = 1;
+      // update hitTracker.
+      hitTracker.push(stringifyInput);
+      return 'a miss';
+    }
+
+    if(typeof boardArray[y][x] === 'object'){
+
+      
+      boardArray[y][x].hit();
+      // will check whether the ship has sunk after every hit.
+      if(boardArray[y][x].isSunk() === true){
+        hitTracker.push(stringifyInput);
+        return 'ship has sunk!';
+      }
+      // update hitTracker;
+      hitTracker.push(stringifyInput);
+      return 'hit';
+    }
+
+    const checkAllShipsSunk = () => {
+      
+    };
+
+
+
+
   };
 
-
-  return {placeShip, receiveAttack, getShipInfo, checkPlacement, boardArray};
+  // Will obviously remove some of those factory function exports soon...
+  return {placeShip, receiveAttack, getShipInfo, checkPlacement};
 };
 
 
