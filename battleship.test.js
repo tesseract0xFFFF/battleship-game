@@ -46,9 +46,29 @@ test('Ship placement', ()=>{
 test('recieveAttack', () => {
   const gameBoard4 = gameBoard();
   gameBoard4.placeShip(1, 7, 3, 'vertical');
+  expect(gameBoard4.receiveAttack(1, 6)).toBe('a miss');
   expect(gameBoard4.receiveAttack(1, 7)).toBe('hit');
   expect(gameBoard4.receiveAttack(1, 8)).toBe('hit');
-  expect(gameBoard4.receiveAttack(1, 9)).toBe('hit');
+  expect(gameBoard4.receiveAttack(1, 9)).toBe('ship has sunk!');
   // need to test an isSunk functionality.
-  expect(gameBoard4.getShipInfo(1, 7)).toEqual({shipLength: 3, shipHits: 3, shipSunk: false,});
+  expect(gameBoard4.getShipInfo(1, 7)).toEqual({shipLength: 3, shipHits: 3, shipSunk: true,});
+});
+
+// write a test for all ships destroyed situation.
+test('all ships destroyed', () => {
+  const gameBoard5 = gameBoard();
+  gameBoard5.placeShip(1, 7, 3, 'vertical');
+  expect(gameBoard5.receiveAttack(1, 7)).toBe('hit');
+  expect(gameBoard5.receiveAttack(1, 8)).toBe('hit');
+  expect(gameBoard5.receiveAttack(1, 9)).toBe('ship has sunk!');
+  gameBoard5.placeShip(5, 7, 3, 'horizontal');
+  expect(gameBoard5.receiveAttack(5, 7)).toBe('hit');
+  expect(gameBoard5.receiveAttack(6, 7)).toBe('hit');
+  expect(gameBoard5.receiveAttack(7, 7)).toBe('ship has sunk!');
+  gameBoard5.placeShip(8, 3, 3, 'vertical');
+  expect(gameBoard5.receiveAttack(8, 3)).toBe('hit');
+  expect(gameBoard5.receiveAttack(8, 4)).toBe('hit');
+  expect(gameBoard5.receiveAttack(8, 5)).toBe('ship has sunk!');
+
+  expect(gameBoard5.checkAllShipsSunk()).toStrictEqual({a: true, b: 3});
 });
