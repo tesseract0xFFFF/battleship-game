@@ -1,13 +1,15 @@
-const ship = (length) => {
+const ship = (length, aff) => {
   let shipLength = length;
   let timesHit = 0;
   let sunkOrNot = false;
+  const affiliation = aff;
 
   // functions that get our values.
   const getLength = ()=> length;
   const getTimesHit = ()=> timesHit;
   //   might be redundant, as isSunk already returns sunkOrNot after an additional check.
   const getSunkenStatus = ()=> sunkOrNot;
+  const getAffiliation = () => affiliation;
 
   const hit = () => {
     timesHit += 1;
@@ -20,7 +22,7 @@ const ship = (length) => {
     return sunkOrNot;
   };
 
-  return {getLength, getTimesHit, getSunkenStatus, hit, isSunk};
+  return {getLength, getTimesHit, getSunkenStatus, hit, isSunk, getAffiliation};
 };
 
 
@@ -52,7 +54,7 @@ const gameBoard = () => {
       return 'coordinates are not on board';
     }
 
-    // i am also aware there are no checks to see if a ship is being placed over another.
+    // i am also aware there are no checks to see if a ship is being placed one over another.
 
     if(orientation === 'horizontal'){
       if(x + (length -1) < 10){
@@ -145,6 +147,7 @@ const gameBoard = () => {
         return true;
       }
     }
+    return false;
   };
 
   const receiveAttack = (x, y) => {
@@ -192,6 +195,7 @@ const gameBoard = () => {
   };
 
   const checkAllShipsSunk = () => {
+    // need to change this to 10.
     if(sunkCounter === 3){
       allSunk = true;
     }

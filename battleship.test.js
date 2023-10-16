@@ -1,4 +1,5 @@
 import {ship, gameBoard} from './src/shipsAndGameBoards.js';
+import {player, cpuTurn} from './src/players.js';
 
 test('ship hit test', ()=>{
   const ship1 = ship(3);
@@ -71,4 +72,29 @@ test('all ships destroyed', () => {
   expect(gameBoard5.receiveAttack(8, 5)).toBe('ship has sunk!');
 
   expect(gameBoard5.checkAllShipsSunk()).toStrictEqual({a: true, b: 3});
+});
+
+test('was hit already', () => {
+  const gameBoard6 = gameBoard();
+  expect(gameBoard6.receiveAttack(4, 5)).toBe('a miss');
+});
+
+// still need to make sure cpu turns work as intended.
+test('cpu', () =>{
+  const gameBoard7 = gameBoard();
+  gameBoard7.placeShip(1, 7, 3, 'vertical');
+  const cpu = cpuTurn(gameBoard7);
+  cpu.cpuAttack();
+  expect(cpu.getScore()).toBe(0);
+});
+
+// so far a player has sunk a ship.
+test('player', ()=>{
+  const gameBoard8 = gameBoard();
+  gameBoard8.placeShip(1, 7, 3, 'vertical');
+  const playerTurn = player(gameBoard8);
+  playerTurn.playerAttack(1, 7);
+  playerTurn.playerAttack(1, 8);
+  playerTurn.playerAttack(1, 9);
+  expect(playerTurn.getScore()).toBe(1);
 });
