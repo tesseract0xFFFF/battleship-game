@@ -36,8 +36,6 @@ const cpuTurn = (gameboard) => {
     // so far it generates random coords and then checks whether they are valid or not.
     let randCoords = getCPURandomCoordinates();
 
-    // will fix tmrw, i do NOT need those checks below as they are already included in the recieveAttack
-    // method!!!! 
     let attack = gameboard.receiveAttack(randCoords[0], randCoords[1]);
 
     // make sure to implement a mechanism that prevents an infinite loop in case all coords were hit.

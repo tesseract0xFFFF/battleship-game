@@ -196,7 +196,7 @@ const gameBoard = () => {
 
   const checkAllShipsSunk = () => {
     // need to change this to 10.
-    if(sunkCounter === 3){
+    if(sunkCounter === 10){
       allSunk = true;
     }
     return {a: allSunk, b: sunkCounter};

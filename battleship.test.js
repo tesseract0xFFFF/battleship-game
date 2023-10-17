@@ -55,7 +55,7 @@ test('recieveAttack', () => {
   expect(gameBoard4.getShipInfo(1, 7)).toEqual({shipLength: 3, shipHits: 3, shipSunk: true,});
 });
 
-// write a test for all ships destroyed situation.
+// write a test for all ships destroyed situation. 
 test('all ships destroyed', () => {
   const gameBoard5 = gameBoard();
   gameBoard5.placeShip(1, 7, 3, 'vertical');
@@ -71,7 +71,7 @@ test('all ships destroyed', () => {
   expect(gameBoard5.receiveAttack(8, 4)).toBe('hit');
   expect(gameBoard5.receiveAttack(8, 5)).toBe('ship has sunk!');
 
-  expect(gameBoard5.checkAllShipsSunk()).toStrictEqual({a: true, b: 3});
+  expect(gameBoard5.checkAllShipsSunk()).toStrictEqual({a: false, b: 3});
 });
 
 test('was hit already', () => {
