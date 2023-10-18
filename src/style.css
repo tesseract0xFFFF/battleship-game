@@ -25,6 +25,8 @@ body {
 .playerGameboard{
     display: grid;
     background-color: aqua;
+    width: 500px;
+    height: 500px;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
 }
@@ -32,6 +34,25 @@ body {
 .cpuGameboard{
     display: grid;
     background-color: aqua;
+    width: 500px;
+    height: 500px;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
+}
+
+.playerCell{
+
+}
+
+.cpuCell{
+
+}
+
+/* A class for hits */
+.hit{
+    background-color: red;
+}
+/* A class for misses */
+.miss{
+    background-color: green;
 }

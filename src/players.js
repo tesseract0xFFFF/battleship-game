@@ -8,10 +8,19 @@ const player = (gameboard) => {
     let attack = gameboard.receiveAttack(x, y);
 
     if(attack === 'was hit already'){
-      return 'was hit already, please enter a different pair of coordinates';
+      return console.log('was hit already, please enter a different pair of coordinates');
     }
     if(attack === 'ship has sunk!'){
       playerScore += 1;
+      return 'ship has sunk!';
+    }
+
+    if(attack === 'hit'){
+      return 'hit';
+    }
+
+    if(attack === 'a miss'){
+      return 'a miss';
     }
 
   };
@@ -47,6 +56,7 @@ const cpuTurn = (gameboard) => {
     if(attack === 'ship has sunk!'){
       cpuScore += 1;
     }
+
     // now it needs to attack. will prob utilize the player gameboard's recieveAttack method.
     // 
   };
