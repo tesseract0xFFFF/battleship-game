@@ -53,12 +53,20 @@ const cpuTurn = (gameboard) => {
       attack = gameboard.receiveAttack(randCoords[0], randCoords[1]);
     }
 
+
     if(attack === 'ship has sunk!'){
       cpuScore += 1;
+      return [randCoords[0], randCoords[1], 'ship has sunk!'];
     }
 
-    // now it needs to attack. will prob utilize the player gameboard's recieveAttack method.
-    // 
+    if(attack === 'hit'){
+      return [randCoords[0], randCoords[1], 'hit'];
+    }
+
+    if(attack === 'a miss'){
+      return [randCoords[0], randCoords[1], 'a miss'];
+    }
+
   };
   
 

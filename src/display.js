@@ -1,7 +1,7 @@
 // experimentation...
 
 
-const boardDisplay = (player) =>{
+const boardDisplay = (player, cpu) =>{
   const playerBoard = document.querySelector('.playerGameboard');
   const cpuBoard = document.querySelector('.cpuGameboard');
   
@@ -32,6 +32,26 @@ const boardDisplay = (player) =>{
         if(attackResult === 'ship has sunk!'){
           event.target.classList.add('hit');
         }
+
+        // cpu turn, the random coordinates will be used to change display.
+        const cpuAttackResult = cpu.cpuAttack();
+        const stringifyRandX = cpuAttackResult[0].toString();
+        const stringifyRandY = cpuAttackResult[1].toString();
+        const currentRandCoordinates = document.querySelector(`[data-x="${stringifyRandX}"][data-y="${stringifyRandY}"]`);
+
+
+        if(cpuAttackResult[2] === 'hit'){
+          currentRandCoordinates.classList.add('hit');
+        }
+
+        if(cpuAttackResult[2] === 'a miss'){
+          currentRandCoordinates.classList.add('miss');
+        }
+
+        if(cpuAttackResult[2] === 'ship has sunk!'){
+          currentRandCoordinates.classList.add('hit');
+        }
+
 
       });
 

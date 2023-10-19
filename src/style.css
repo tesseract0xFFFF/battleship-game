@@ -9,10 +9,16 @@ body {
 
 .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 75%;
     width: 75%;
+}
+
+.titles{
+    display: flex;
+    gap: 500px;
 }
 
 .gameboards{
