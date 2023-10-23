@@ -98,3 +98,17 @@ test('player', ()=>{
   playerTurn.playerAttack(1, 9);
   expect(playerTurn.getScore()).toBe(1);
 });
+
+
+test('overlapping', () => {
+  const gameBoard9 = gameBoard();
+  gameBoard9.placeShip(1, 7, 3, 'vertical');
+  // vertical overlapping check
+  expect(gameBoard9.placeShip(1, 8, 3, 'vertical')).toBe('overlap');
+  expect(gameBoard9.placeShip(1, 9, 3, 'vertical')).toBe('overlap');
+  expect(gameBoard9.placeShip(1, 6, 3, 'vertical')).toBe('overlap');
+  expect(gameBoard9.placeShip(1, 5, 3, 'vertical')).toBe('overlap');
+  // horizontal overlapping check
+  expect(gameBoard9.placeShip(0, 7, 3, 'horizontal')).toBe('overlap');
+  expect(gameBoard9.placeShip(0, 8, 3, 'horizontal')).toBe('overlap');
+});

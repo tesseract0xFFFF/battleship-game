@@ -33,6 +33,7 @@ const gameBoard = () => {
   const boardArray = [];
   // tracks coordinates that have already been shot at.
   const hitTracker = [];
+  const shipPlacementTracker = [];
   // will probably try creating a counter of sunken ships that will turn the 
   // allSunk variable to 'true' once it reaches 10;
   let sunkCounter = 0;
@@ -45,6 +46,30 @@ const gameBoard = () => {
     }
   }
 
+  const checkOverlap = (x, y, length) => {
+    // checks if coordinates are already occupied by another ship.
+    for(let i = 0; i < length; i++){
+      // check vertical and horizontal overlapping.
+      const stringifyInputHorizontal = (x + i).toString() + ', ' + (y).toString(); 
+      const stringifyInputVertical = (x).toString() + ', ' + (y + i).toString(); 
+      // horizontal check.
+      for(let j = 0; j < shipPlacementTracker.length; j+=1){
+        if (shipPlacementTracker[j] === stringifyInputHorizontal){
+          return true;
+        }
+      }
+      // Vertical check.
+      for(let k = 0; k < shipPlacementTracker.length; k+=1){
+        if (shipPlacementTracker[k] === stringifyInputVertical){
+          return true;
+        }
+      }  
+    }
+    
+    return false;
+  };
+
+
 
   const checkPlacement = (x, y, length, orientation) => {
     // not to forget that array indexes are 0 to 9.
@@ -54,7 +79,6 @@ const gameBoard = () => {
       return 'coordinates are not on board';
     }
 
-    // i am also aware there are no checks to see if a ship is being placed one over another.
 
     if(orientation === 'horizontal'){
       if(x + (length -1) < 10){
@@ -94,6 +118,11 @@ const gameBoard = () => {
   
     // returns true if valid placement and false if not valid.
     const placementCheck = checkPlacement(x, y, length, orientation);
+    const overlapCheck = checkOverlap(x, y, length);
+
+    if(overlapCheck === true){
+      return 'overlap';
+    }
 
     if(placementCheck === true){
 
@@ -103,12 +132,16 @@ const gameBoard = () => {
       if(orientation === 'horizontal'){
         for(let i = 0; i < length; i++){
           boardArray[y][x + i] = shipToBePlaced;
+          const stringifyInput = (x + i).toString() + ', ' + (y).toString(); 
+          shipPlacementTracker.push(stringifyInput);
         }
       }
 
       if(orientation === 'vertical'){
         for(let i = 0; i < length; i++){
           boardArray[y + i][x] = shipToBePlaced;
+          const stringifyInput = (x).toString() + ', ' + (y + i).toString(); 
+          shipPlacementTracker.push(stringifyInput);
         }
       }
 
@@ -149,6 +182,7 @@ const gameBoard = () => {
     }
     return false;
   };
+
 
   const receiveAttack = (x, y) => {
     // Gameboards should have a receiveAttack function 
@@ -196,7 +230,7 @@ const gameBoard = () => {
 
   const checkAllShipsSunk = () => {
     // need to change this to 10.
-    if(sunkCounter === 10){
+    if(sunkCounter === 5){
       allSunk = true;
     }
     return {a: allSunk, b: sunkCounter};
