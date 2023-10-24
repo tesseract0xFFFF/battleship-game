@@ -8,7 +8,7 @@ const player = (gameboard) => {
     let attack = gameboard.receiveAttack(x, y);
 
     if(attack === 'was hit already'){
-      return console.log('was hit already, please enter a different pair of coordinates');
+      return 'was hit already';
     }
     if(attack === 'ship has sunk!'){
       playerScore += 1;

@@ -229,16 +229,16 @@ const gameBoard = () => {
   };
 
   const checkAllShipsSunk = () => {
-    // need to change this to 10.
     if(sunkCounter === 5){
       allSunk = true;
+      return true;
     }
     return {a: allSunk, b: sunkCounter};
   };
 
 
   // Will obviously remove some of those factory function exports soon...
-  return {placeShip, receiveAttack, getShipInfo, checkPlacement, checkAllShipsSunk,};
+  return {placeShip, receiveAttack, getShipInfo, checkPlacement, checkAllShipsSunk, shipPlacementTracker,};
 };
 
 

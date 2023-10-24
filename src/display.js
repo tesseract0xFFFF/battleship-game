@@ -1,7 +1,7 @@
 // experimentation...
 
 
-const boardDisplay = (player, cpu) =>{
+const boardDisplay = (player, cpu, pGameboard, cpuGameboard) =>{
   const playerBoard = document.querySelector('.playerGameboard');
   const cpuBoard = document.querySelector('.cpuGameboard');
   
@@ -15,6 +15,8 @@ const boardDisplay = (player, cpu) =>{
       cellCPU.classList.add('cpuCell');
       cellCPU.dataset.y = i;
       cellCPU.dataset.x = j;
+
+
       // adds event listeners on the cpu's board so things happen when i click on it.
       cellCPU.addEventListener('click', (event)=>{
         const xValue = +event.target.dataset.x;
@@ -33,6 +35,16 @@ const boardDisplay = (player, cpu) =>{
           event.target.classList.add('hit');
         }
 
+        if(attackResult === 'was hit already'){
+          return;
+        }
+
+        if(cpuGameboard.checkAllShipsSunk() === true){
+          const playerWonAnnouncement = document.querySelector('.victoryBanner2');
+          playerWonAnnouncement.style.display = 'flex';
+          return 'player won';
+        }
+
         // cpu turn, the random coordinates will be used to change display.
         const cpuAttackResult = cpu.cpuAttack();
         const stringifyRandX = cpuAttackResult[0].toString();
@@ -41,6 +53,7 @@ const boardDisplay = (player, cpu) =>{
 
 
         if(cpuAttackResult[2] === 'hit'){
+          currentRandCoordinates.classList.remove('playerShip');
           currentRandCoordinates.classList.add('hit');
         }
 
@@ -50,6 +63,12 @@ const boardDisplay = (player, cpu) =>{
 
         if(cpuAttackResult[2] === 'ship has sunk!'){
           currentRandCoordinates.classList.add('hit');
+        }
+
+        if(pGameboard.checkAllShipsSunk() === true){
+          const playerWonAnnouncement = document.querySelector('.victoryBanner1');
+          playerWonAnnouncement.style.display = 'flex';
+          return 'cpu won';
         }
 
 
@@ -62,5 +81,18 @@ const boardDisplay = (player, cpu) =>{
 
 };
 
-export {boardDisplay};
+// displays ships on player's board.
+const markShips = (gameboard) => {
+
+  for(let i = 0; i < gameboard.shipPlacementTracker.length; i++){
+    const coordinatesArray = gameboard.shipPlacementTracker[i].split(',');
+    const shipXValue = coordinatesArray[0].trim();
+    const shipYValue = coordinatesArray[1].trim();
+    const correspondingShipElement = document.querySelector(`[data-x="${shipXValue}"][data-y="${shipYValue}"]`);
+    correspondingShipElement.classList.add('playerShip');
+  }
+
+};
+
+export {boardDisplay, markShips};
 

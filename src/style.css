@@ -46,12 +46,8 @@ body {
     grid-template-columns: repeat(10, 1fr);
 }
 
-.playerCell{
-
-}
-
-.cpuCell{
-
+.playerShip{
+    background-color: black;
 }
 
 /* A class for hits */
@@ -61,4 +57,12 @@ body {
 /* A class for misses */
 .miss{
     background-color: green;
+}
+
+.victoryBanner1{
+
+}
+
+.victoryBanner2{
+    
 }
