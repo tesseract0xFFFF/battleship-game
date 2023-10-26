@@ -70,7 +70,7 @@ const cpuTurn = (gameboard) => {
   };
   
 
-  return {getScore, cpuAttack};
+  return {getScore, cpuAttack,};
 };
 
 export {player, cpuTurn};

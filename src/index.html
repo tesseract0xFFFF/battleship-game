@@ -8,6 +8,33 @@
 </head>
 <body>
     <div class="container">
+        <form id="shipPLacementForm" style="display: flex;">
+
+            <div class="moreInfo"></div>
+
+            <div class="shipType">Place your Carrier</div>
+            
+            <div>
+                <label for="xValue">x:</label>
+                <input type="text" id="xValue" name="xValue" required>
+            </div>
+            
+            <div>
+                <label for="yValue">y:</label>
+                <input type="text" id="yValue" name="yValue" required>
+            </div>
+
+            <label for="cars">Orientation:</label>
+
+            <select name="orientation" id="orientation">
+              <option value="horizontal">horizontal</option>
+              <option value="vertical">vertical</option>
+            </select>
+            
+            <button id="placeShip">place</button>
+
+        </form>
+
         <div class="victoryBanner1" style="display: none;">CPU WON!</div>
         <div class="victoryBanner2" style="display: none;">YOU WON!</div>
 

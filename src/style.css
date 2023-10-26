@@ -66,3 +66,17 @@ body {
 .victoryBanner2{
     
 }
+
+#shipPLacementForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 30vw;
+    top: 30vh;
+    right: 100px;
+    background-color: blueviolet;
+    width: 500px;
+    height: 300px;
+}

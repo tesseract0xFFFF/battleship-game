@@ -23,6 +23,14 @@ const boardDisplay = (player, cpu, pGameboard, cpuGameboard) =>{
         const yValue = +event.target.dataset.y;
         const attackResult = player.playerAttack(xValue, yValue);
 
+        if(pGameboard.getAllSunk()){
+          return;
+        }
+
+        if(cpuGameboard.getAllSunk()){
+          return;
+        }
+
         if(attackResult === 'hit'){
           event.target.classList.add('hit');
         }
@@ -83,7 +91,7 @@ const boardDisplay = (player, cpu, pGameboard, cpuGameboard) =>{
 
 // displays ships on player's board.
 const markShips = (gameboard) => {
-
+// shows deployed ships on player's board.
   for(let i = 0; i < gameboard.shipPlacementTracker.length; i++){
     const coordinatesArray = gameboard.shipPlacementTracker[i].split(',');
     const shipXValue = coordinatesArray[0].trim();
@@ -94,5 +102,71 @@ const markShips = (gameboard) => {
 
 };
 
-export {boardDisplay, markShips};
+
+const interactivePlacement = (playerBoard, cpuBoard, counter, isShipPlacementFinished) => {
+
+  const shipType = document.querySelector('.shipType');
+  const announcementBoard = document.querySelector('.moreInfo');
+
+  let counterValue = counter.getCounter();
+
+  
+  if(counterValue < 5){
+    const shipTypes = [5, 4, 3, 3, 2];
+    const xValue = document.getElementById('xValue');
+    const yValue = document.getElementById('yValue');
+    const orientation = document.getElementById('orientation');
+    
+    const placementResult = playerBoard.placeShip(+xValue.value, +yValue.value, shipTypes[counterValue], orientation.value);
+
+    if(placementResult === 'overlap'){
+      announcementBoard.textContent = 'overlap!';
+      return; 
+    }
+
+    if(placementResult === 'coordinates are not on board'){
+      announcementBoard.textContent = 'coordinates are not on board!';
+      return;
+    }
+
+    counter.setCounter();
+    counterValue = counter.getCounter();
+    document.getElementById('xValue').value = '';
+    document.getElementById('yValue').value = '';
+
+
+    if(counterValue === 1){
+      shipType.textContent = 'Place your Battleship';
+    }
+  
+    if(counterValue === 2){
+      shipType.textContent = 'Place your Destroyer';
+    }
+  
+    if(counterValue === 3){
+      shipType.textContent = 'Place your Submarine';
+    }
+  
+    if(counterValue === 4){
+      shipType.textContent = 'Place your Patrol Boat';
+    }
+
+    if(counterValue > 4){
+      const placementForm = document.getElementById('shipPLacementForm');
+      placementForm.style.display = 'none';
+      isShipPlacementFinished();  
+    }
+  }
+  else{
+    const placementForm = document.getElementById('shipPLacementForm');
+    placementForm.style.display = 'none';
+  }
+
+
+
+  // cpu placement.
+  
+};
+
+export {boardDisplay, markShips, interactivePlacement};
 

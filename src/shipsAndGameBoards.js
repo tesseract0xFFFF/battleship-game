@@ -46,6 +46,8 @@ const gameBoard = () => {
     }
   }
 
+  const getAllSunk = () => {return allSunk;};
+
   const checkOverlap = (x, y, length) => {
     // checks if coordinates are already occupied by another ship.
     for(let i = 0; i < length; i++){
@@ -238,7 +240,7 @@ const gameBoard = () => {
 
 
   // Will obviously remove some of those factory function exports soon...
-  return {placeShip, receiveAttack, getShipInfo, checkPlacement, checkAllShipsSunk, shipPlacementTracker,};
+  return {placeShip, receiveAttack, getShipInfo, checkPlacement, checkAllShipsSunk, shipPlacementTracker, getAllSunk};
 };
 
 
