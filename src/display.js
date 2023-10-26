@@ -124,7 +124,8 @@ const interactivePlacement = (playerBoard, cpuBoard, counter, isShipPlacementFin
       return; 
     }
 
-    if(placementResult === 'coordinates are not on board'){
+    // out of bounds
+    if(placementResult === 0){
       announcementBoard.textContent = 'coordinates are not on board!';
       return;
     }
