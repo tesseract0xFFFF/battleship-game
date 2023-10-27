@@ -111,6 +111,8 @@ const interactivePlacement = (playerBoard, cpuBoard, counter, isShipPlacementFin
   let counterValue = counter.getCounter();
 
   
+
+  
   if(counterValue < 5){
     const shipTypes = [5, 4, 3, 3, 2];
     const xValue = document.getElementById('xValue');
@@ -153,8 +155,26 @@ const interactivePlacement = (playerBoard, cpuBoard, counter, isShipPlacementFin
     }
 
     if(counterValue > 4){
+      // cpu turn and dialog box disappears.
+      const cpuShipTypes = [5, 4, 3, 3, 2];
+      // will help alternating between vertical and horizontal placements.
+      const verticalOrHorizontal = ['vertical', 'horizontal'];
+
       const placementForm = document.getElementById('shipPLacementForm');
       placementForm.style.display = 'none';
+      // place all 5 cpu ships
+      for(let i = 0; i < 5; i++){
+        const cpuXValue = Math.floor(Math.random() * 9);
+        const cpuYvalue = Math.floor(Math.random() * 9);
+        let cpuPlacementResult = cpuBoard.placeShip(cpuXValue, cpuYvalue, cpuShipTypes[i], verticalOrHorizontal[Math.floor(Math.random() * 2)]);
+        while(cpuPlacementResult === 'overlap' || cpuPlacementResult === 0){
+          const cpuXValue = Math.floor(Math.random() * 9);
+          const cpuYvalue = Math.floor(Math.random() * 9);
+          cpuPlacementResult = cpuBoard.placeShip(cpuXValue, cpuYvalue, cpuShipTypes[i], verticalOrHorizontal[Math.floor(Math.random() * 2)]);
+        }
+
+      }
+
       isShipPlacementFinished();  
     }
   }
